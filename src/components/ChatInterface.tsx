@@ -105,6 +105,7 @@ In the ${currentPhase.name} phase, focus on: ${currentPhase.description}${conver
   };
 
   // Get phase-specific helpful questions/prompts
+  /*
   const getPhaseSpecificHelp = (phaseName: string) => {
     switch (phaseName) {
       case "Understand":
@@ -121,6 +122,7 @@ In the ${currentPhase.name} phase, focus on: ${currentPhase.description}${conver
         return "What would you like to work on together?";
     }
   };
+  */
 
   // Generate welcome message based on context
   const getWelcomeMessage = () => {
@@ -796,3 +798,4 @@ What challenge would you like to work on? Please describe it in your own words.`
     </Card>
   );
 };
+ 

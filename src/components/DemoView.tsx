@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Users, Crown, Zap, Clock, Play, Pause, CheckCircle2, ChevronRight } from "lucide-react";
+import { Users, Crown, Clock, Play, Pause, CheckCircle2, ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -103,7 +99,7 @@ const phaseQuestions = [
 ];
 
 export const DemoView: React.FC<DemoViewProps> = ({ 
-  navigate, 
+  // navigate, 
   user, 
   currentPhase, 
   onPhaseChange, 
@@ -111,7 +107,7 @@ export const DemoView: React.FC<DemoViewProps> = ({
 }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(true);
   const [timeRemaining, setTimeRemaining] = useState(1800); // 30 minutes
-  const [showPhaseDetails, setShowPhaseDetails] = useState(false);
+  const [showPhaseDetails] = useState(false);
   const [showPhaseModal, setShowPhaseModal] = useState(false);
   const [dynamicProgress, setDynamicProgress] = useState<number>(0);
 

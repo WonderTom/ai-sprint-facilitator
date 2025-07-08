@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { GeneratedAvatar } from "@/components/ui/generated-avatar";
+
 
 type View = "dashboard" | "sprint" | "analytics" | "settings" | "help" | "demo";
 

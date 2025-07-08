@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Plus, Users, Clock, Target, Settings, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Plus, Users, Clock, Target, ArrowRight, CheckCircle2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Badge } from "@/components/ui/badge";
+// import { Badge } from "@/components/ui/badge";
 
 type View = "dashboard" | "sprint" | "analytics" | "settings" | "help" | "demo";
 

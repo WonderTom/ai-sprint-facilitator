@@ -37,7 +37,7 @@ interface DemoChatProps {
 }
 
 export const DemoChatInterface: React.FC<DemoChatProps> = ({
-  currentPhase,
+  // currentPhase,
   currentPhaseIndex,
   user,
   mockUsers,
@@ -891,7 +891,7 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
     setInput("");
   };
 
-  const renderFigmaEmbed = (url: string) => (
+  const renderFigmaEmbed = (_url: string) => (
     <div className="mt-3 p-3 bg-gray-50 rounded-lg border">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center space-x-2">

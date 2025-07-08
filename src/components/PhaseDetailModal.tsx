@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { CheckCircle2, Target, Users, Lightbulb, Vote, Timer, ArrowRight } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { CheckCircle2, Target, Users, Lightbulb, Vote, Timer } from "lucide-react";
+import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
