@@ -324,7 +324,7 @@ export const DemoView: React.FC<DemoViewProps> = ({
       </div>
 
       {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-h-0">
+      <div className="flex-1 flex flex-col h-0">
         <DemoChatInterface
           currentPhase={sprintPhases[currentPhase]}
           currentPhaseIndex={currentPhase}
