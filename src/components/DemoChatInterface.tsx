@@ -1048,162 +1048,170 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
   };
 
   return (
-    <div className="h-full flex flex-col bg-background">
-      {/* Messages Container - Takes remaining space and scrolls */}
-      <div className="flex-1 overflow-y-auto p-4 pb-8 space-y-4">
-        {/* Messages List */}
-        {messages.map((msg, msgIndex) => {
-          const isCurrentUser = msg.userId === "current-user";
-          const isAssistant = msg.type === "assistant";
-          const isSummary = isAssistant && isSummaryMessage(msg.content);
-          const isLastMessage = msgIndex === messages.length - 1;
-          
-          // Enhanced summary message
-          if (isSummary) {
-            return (
-              <div key={msg.id} className="flex items-start gap-3 w-full">
-                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
-                  <Zap size={20} />
-                </div>
-                {renderSummaryMessage(msg.content, isLastMessage)}
-              </div>
-            );
-          }
-          
-          // Regular messages
-          return (
-            <div
-              key={msg.id}
-              className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}
-            >
-              {!isCurrentUser && !isAssistant && (
-                <GeneratedAvatar 
-                  user={{ 
-                    name: msg.userName || "Unknown", 
-                    role: msg.userRole || "Team Member",
-                    gender: getUserFromId(msg.userId || "")?.gender
-                  }}
-                  className="w-8 h-8 flex-shrink-0"
-                  size={32}
-                />
-              )}
-              {isAssistant && (
-                <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
-                  <Zap size={20} />
-                </div>
-              )}
-              <div
-                className={`max-w-md p-3 rounded-lg ${
-                  isAssistant
-                    ? "bg-blue-50 text-gray-800 border-none"
-                    : isCurrentUser
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-secondary text-secondary-foreground"
-                }`}
-              >
-                {!isAssistant && !isCurrentUser && (
-                  <div className="text-xs font-medium mb-1 opacity-70">
-                    {msg.userName} ({msg.userRole})
+    <div className="h-0 w-full flex-1 flex flex-col bg-background">
+      {/* Messages Container - Takes full available height minus input area */}
+      <div className="flex-1 overflow-hidden">
+        <div className="h-full overflow-y-auto">
+          <div className="p-4 pb-2 flex flex-col">
+            {/* Messages List */}
+            <div className="space-y-4">
+              {messages.map((msg, msgIndex) => {
+                const isCurrentUser = msg.userId === "current-user";
+                const isAssistant = msg.type === "assistant";
+                const isSummary = isAssistant && isSummaryMessage(msg.content);
+                const isLastMessage = msgIndex === messages.length - 1;
+                
+                // Enhanced summary message
+                if (isSummary) {
+                  return (
+                    <div key={msg.id} className="flex items-start gap-3 w-full">
+                      <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
+                        <Zap size={20} />
+                      </div>
+                      {renderSummaryMessage(msg.content, isLastMessage)}
+                    </div>
+                  );
+                }
+                
+                // Regular messages
+                return (
+                  <div
+                    key={msg.id}
+                    className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}
+                  >
+                    {!isCurrentUser && !isAssistant && (
+                      <GeneratedAvatar 
+                        user={{ 
+                          name: msg.userName || "Unknown", 
+                          role: msg.userRole || "Team Member",
+                          gender: getUserFromId(msg.userId || "")?.gender
+                        }}
+                        className="w-8 h-8 flex-shrink-0"
+                        size={32}
+                      />
+                    )}
+                    {isAssistant && (
+                      <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
+                        <Zap size={20} />
+                      </div>
+                    )}
+                    <div
+                      className={`max-w-md p-3 rounded-lg ${
+                        isAssistant
+                          ? "bg-blue-50 text-gray-800 border-none"
+                          : isCurrentUser
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-secondary-foreground"
+                      }`}
+                    >
+                      {!isAssistant && !isCurrentUser && (
+                        <div className="text-xs font-medium mb-1 opacity-70">
+                          {msg.userName} ({msg.userRole})
+                        </div>
+                      )}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: formatMessageText(msg.content),
+                        }}
+                      />
+                      {msg.figmaLink && renderFigmaEmbed(msg.figmaLink)}
+                    </div>
+                    {isCurrentUser && (
+                      <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-semibold">
+                          {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
+                        </span>
+                      </div>
+                    )}
                   </div>
-                )}
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: formatMessageText(msg.content),
-                  }}
-                />
-                {msg.figmaLink && renderFigmaEmbed(msg.figmaLink)}
-              </div>
-              {isCurrentUser && (
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-semibold">
-                    {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
-                  </span>
-                </div>
-              )}
-            </div>
-          );
-        })}
+                );
+              })}
 
-        {/* Typing indicators */}
-        {Array.from(typingUsers).map(userId => {
-          const typingUser = getUserFromId(userId);
-          const isCurrentUser = userId === "current-user";
-          if (!typingUser) return null;
-          
-          return (
-            <div key={`typing-${userId}`} className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}>
-              {!isCurrentUser && (
-                <GeneratedAvatar 
-                  user={{ 
-                    name: typingUser.name, 
-                    role: typingUser.role,
-                    gender: typingUser.gender
-                  }}
-                  className="w-8 h-8 flex-shrink-0"
-                  size={32}
-                />
-              )}
-              {isCurrentUser && (
-                <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                  <span className="text-xs font-semibold">
-                    {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
-                  </span>
-                </div>
-              )}
-              <div className={`max-w-md p-3 rounded-lg ${isCurrentUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
-                <div className="flex items-center space-x-1">
-                  <span className="w-2 h-2 bg-current rounded-full animate-pulse opacity-60" />
-                  <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-150 opacity-60" />
-                  <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-300 opacity-60" />
-                  <span className="ml-2 text-sm opacity-70">
-                    {typingUser.name} is typing...
-                  </span>
-                </div>
-              </div>
+              {/* Typing indicators */}
+              {Array.from(typingUsers).map(userId => {
+                const typingUser = getUserFromId(userId);
+                const isCurrentUser = userId === "current-user";
+                if (!typingUser) return null;
+                
+                return (
+                  <div key={`typing-${userId}`} className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}>
+                    {!isCurrentUser && (
+                      <GeneratedAvatar 
+                        user={{ 
+                          name: typingUser.name, 
+                          role: typingUser.role,
+                          gender: typingUser.gender
+                        }}
+                        className="w-8 h-8 flex-shrink-0"
+                        size={32}
+                      />
+                    )}
+                    {isCurrentUser && (
+                      <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs font-semibold">
+                          {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
+                        </span>
+                      </div>
+                    )}
+                    <div className={`max-w-md p-3 rounded-lg ${isCurrentUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"}`}>
+                      <div className="flex items-center space-x-1">
+                        <span className="w-2 h-2 bg-current rounded-full animate-pulse opacity-60" />
+                        <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-150 opacity-60" />
+                        <span className="w-2 h-2 bg-current rounded-full animate-pulse delay-300 opacity-60" />
+                        <span className="ml-2 text-sm opacity-70">
+                          {typingUser.name} is typing...
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
-          );
-        })}
-        
-        {/* Scroll anchor - always at the bottom */}
-        <div ref={messagesEndRef} className="h-4" />
+            
+            {/* Scroll anchor - always at the bottom */}
+            <div ref={messagesEndRef} className="h-px flex-shrink-0" />
+          </div>
+        </div>
       </div>
 
       {/* Input Area - Fixed at bottom, always visible */}
-      <div className="p-4 border-t bg-background/95 backdrop-blur-sm">
-        <div className="relative">
-          <Input
-            className="pr-32 bg-background border-input"
-            placeholder="Share your thoughts with the team..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-          />
-          <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-muted-foreground hover:text-foreground"
-              title="Attach file"
-            >
-              <Paperclip className="w-4 h-4" />
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 text-muted-foreground hover:text-foreground"
-              title="Voice mode"
-            >
-              <Mic className="w-4 h-4" />
-            </Button>
-            <Button
-              className="h-8 w-8"
-              disabled={!input.trim()}
-              size="icon"
-              onClick={handleSendMessage}
-              title="Send message"
-            >
-              <Send className="w-4 h-4" />
-            </Button>
+      <div className="flex-shrink-0 border-t bg-background/95 backdrop-blur-sm">
+        <div className="p-4">
+          <div className="relative">
+            <Input
+              className="pr-32 bg-background border-input"
+              placeholder="Share your thoughts with the team..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
+            />
+            <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                title="Attach file"
+              >
+                <Paperclip className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                title="Voice mode"
+              >
+                <Mic className="w-4 h-4" />
+              </Button>
+              <Button
+                className="h-8 w-8"
+                disabled={!input.trim()}
+                size="icon"
+                onClick={handleSendMessage}
+                title="Send message"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>
