@@ -33,6 +33,10 @@ export const SprintView: React.FC<SprintViewProps> = ({
 }) => {
   const sprintPhases = [
     {
+      name: "Setup",
+      description: "Map stakeholders and establish team structure.",
+    },
+    {
       name: "Understand",
       description: "Map out the problem space and pick a target.",
     },

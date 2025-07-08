@@ -18,6 +18,44 @@ import {
 export const HelpView: React.FC = () => {
   const sprintPhasesHelp = [
     {
+      title: "Phase 0: Setup",
+      content: (
+        <div className="space-y-4">
+          <p>
+            <strong>Goal:</strong> Identify all stakeholders and establish the foundation for a successful sprint.
+            This phase ensures the team has the right people, clear roles, and established communication norms.
+          </p>
+          <div>
+            <h4 className="font-semibold mb-2">Key Activities:</h4>
+            <ul className="list-disc list-inside space-y-1 text-sm">
+              <li>
+                <strong>Stakeholder Mapping:</strong> Identify all key people who should be involved in the sprint.
+              </li>
+              <li>
+                <strong>Role Definition:</strong> Establish what role each person will play and their areas of expertise.
+              </li>
+              <li>
+                <strong>Designate the Decider:</strong> Choose one person who will have the final say on decisions.
+              </li>
+              <li>
+                <strong>Communication Norms:</strong> Set expectations for how the team will work together.
+              </li>
+              <li>
+                <strong>Timeline and Scope:</strong> Confirm the sprint duration and what the team hopes to achieve.
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h4 className="font-semibold mb-2">AI Facilitator&apos;s Role:</h4>
+            <p className="text-sm">
+              The AI will guide stakeholder identification, help establish clear roles and decision-making hierarchy,
+              and ensure all necessary expertise is represented or identified for later consultation.
+            </p>
+          </div>
+        </div>
+      ),
+    },
+    {
       title: "Phase 1: Understand",
       content: (
         <div className="space-y-4">
@@ -272,7 +310,7 @@ export const HelpView: React.FC = () => {
         </CardHeader>
         <CardContent>
           <p className="text-muted-foreground">
-            A Design Sprint is a time-constrained, five-phase process that uses
+            A Design Sprint is a time-constrained, six-phase process that uses
             design thinking to reduce the risk when bringing a new product,
             service, or a feature to the market. It&apos;s a recipe for solving
             big problems and testing new ideas in just a few days. This app,
