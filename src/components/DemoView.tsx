@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { GeneratedAvatar } from "@/components/ui/generated-avatar";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { DemoChatInterface } from "./DemoChatInterface";
@@ -37,6 +38,7 @@ export interface MockUser {
   status: "online" | "typing" | "away" | "offline";
   isHost?: boolean;
   avatar: string;
+  gender?: 'male' | 'female';
 }
 
 export const mockUsers: MockUser[] = [
@@ -46,35 +48,40 @@ export const mockUsers: MockUser[] = [
     role: "Product Manager",
     status: "online",
     isHost: true,
-    avatar: "SC"
+    avatar: "SC",
+    gender: "female"
   },
   {
     id: "2", 
     name: "Mike Johnson",
     role: "UX Designer",
     status: "online",
-    avatar: "MJ"
+    avatar: "MJ",
+    gender: "male"
   },
   {
     id: "3",
     name: "Elena Rodriguez", 
     role: "Frontend Developer",
     status: "typing",
-    avatar: "ER"
+    avatar: "ER",
+    gender: "female"
   },
   {
     id: "4",
     name: "David Kim",
     role: "Business Analyst", 
     status: "online",
-    avatar: "DK"
+    avatar: "DK",
+    gender: "male"
   },
   {
     id: "5",
     name: "Lisa Thompson",
     role: "QA Engineer",
     status: "away",
-    avatar: "LT"
+    avatar: "LT",
+    gender: "female"
   }
 ];
 
@@ -270,7 +277,7 @@ export const DemoView: React.FC<DemoViewProps> = ({
                 <div className="flex items-center space-x-3">
                   <Avatar className="w-10 h-10 border-2 border-green-300">
                     <AvatarFallback className="bg-green-100 text-green-700 font-semibold">
-                      {user.name.split(' ').map(n => n[0]).join('')}
+                      {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
@@ -292,11 +299,11 @@ export const DemoView: React.FC<DemoViewProps> = ({
               {mockUsers.map((mockUser) => (
                 <Card key={mockUser.id} className="p-3">
                   <div className="flex items-center space-x-3">
-                    <Avatar className="w-9 h-9">
-                      <AvatarFallback className="text-xs font-medium">
-                        {mockUser.avatar}
-                      </AvatarFallback>
-                    </Avatar>
+                    <GeneratedAvatar 
+                      user={{ name: mockUser.name, gender: mockUser.gender, role: mockUser.role }}
+                      className="w-9 h-9"
+                      size={36}
+                    />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center space-x-2">
                         <p className="text-sm font-medium truncate">{mockUser.name}</p>

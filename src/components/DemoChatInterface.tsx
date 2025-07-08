@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Bot, Send, ExternalLink, ChevronRight } from "lucide-react";
+import { Zap, Send, ExternalLink, ChevronRight, Paperclip, Mic, FileText } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { MockUser } from "./DemoView";
+import { GeneratedAvatar } from "@/components/ui/generated-avatar";
 
 interface DemoMessage {
   id: string;
@@ -132,6 +133,29 @@ export const DemoChatInterface: React.FC<DemoChatProps> = ({
           userName: "Elena Rodriguez",
           userRole: "Developer",
           avatar: "ER"
+        },
+        {
+          type: "user" as const,
+          content: "I agree. Also, we should consider involving the student focus group I've been working with - they could provide real-time feedback during testing phases.",
+          userId: "current-user",
+          userName: "You",
+          userRole: "Team Member",
+          avatar: "YU"
+        },
+        {
+          type: "assistant" as const,
+          content: `Excellent point! Having direct student input will be invaluable. What's the timeline authority for this team to implement solutions?`,
+          userName: "AI Facilitator",
+          userRole: "Facilitator",
+          avatar: "AI"
+        },
+        {
+          type: "user" as const,
+          content: "We have 8 weeks to develop and test a working prototype, with potential for immediate implementation if testing goes well. UBS leadership is very supportive of this initiative.",
+          userId: "current-user",
+          userName: "You",
+          userRole: "Team Member",
+          avatar: "YU"
         },
         {
           type: "assistant" as const,
@@ -585,6 +609,37 @@ Evaluated solutions using student-focused criteria: appeal to 18-26 demographic,
         },
         {
           type: "assistant" as const,
+          content: `Perfect! Let's start building. Who wants to tackle the initial wireframes?`,
+          userName: "AI Facilitator",
+          userRole: "Facilitator",
+          avatar: "AI"
+        },
+        {
+          type: "user" as const,
+          content: "I'll start with the main user flow wireframes. Let me share the initial prototype designs I've been working on.",
+          userId: "current-user",
+          userName: "You",
+          userRole: "Team Member",
+          avatar: "YU",
+          figmaLink: "https://www.figma.com/file/student-loan-prototype"
+        },
+        {
+          type: "assistant" as const,
+          content: `Excellent work! Those wireframes clearly show the gamified learning flow. How will users progress through the financial literacy modules?`,
+          userName: "AI Facilitator",
+          userRole: "Facilitator",
+          avatar: "AI"
+        },
+        {
+          type: "user" as const,
+          content: "Step-by-step modules with progress badges. Each completed module unlocks the next application section, ensuring they learn before they apply.",
+          userId: "2",
+          userName: "Mike Johnson",
+          userRole: "UX Designer",
+          avatar: "MJ"
+        },
+        {
+          type: "assistant" as const,
           content: `**PROTOTYPE SUMMARY:**
 
 **Core Features:**
@@ -936,7 +991,8 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
               return (
                 <div key={index} className="text-center pb-2">
                   <div className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-full font-semibold text-sm shadow-sm">
-                    📋 {section.title}
+                    <FileText className="w-4 h-4 mr-2" />
+                    {section.title}
                   </div>
                 </div>
               );
@@ -1010,7 +1066,7 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
                   return (
                     <div key={msg.id} className="flex items-start gap-3 w-full">
                       <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
-                        <Bot size={20} />
+                        <Zap size={20} />
                       </div>
                       {renderSummaryMessage(msg.content, isLastMessage)}
                     </div>
@@ -1024,15 +1080,19 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
                     className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}
                   >
                     {!isCurrentUser && !isAssistant && (
-                      <div className="w-8 h-8 rounded-full bg-muted text-foreground flex items-center justify-center flex-shrink-0">
-                        <span className="text-xs font-semibold">
-                          {msg.avatar}
-                        </span>
-                      </div>
+                      <GeneratedAvatar 
+                        user={{ 
+                          name: msg.userName || "Unknown", 
+                          role: msg.userRole || "Team Member",
+                          gender: getUserFromId(msg.userId || "")?.gender
+                        }}
+                        className="w-8 h-8 flex-shrink-0"
+                        size={32}
+                      />
                     )}
                     {isAssistant && (
                       <div className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center flex-shrink-0">
-                        <Bot size={20} />
+                        <Zap size={20} />
                       </div>
                     )}
                     <div
@@ -1059,7 +1119,7 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
                     {isCurrentUser && (
                       <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
                         <span className="text-xs font-semibold">
-                          {msg.avatar}
+                          {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
                         </span>
                       </div>
                     )}
@@ -1076,9 +1136,20 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
                 return (
                   <div key={`typing-${userId}`} className={`flex items-start gap-3 ${isCurrentUser ? "justify-end" : ""}`}>
                     {!isCurrentUser && (
-                      <div className="w-8 h-8 rounded-full bg-muted text-foreground flex items-center justify-center flex-shrink-0">
+                      <GeneratedAvatar 
+                        user={{ 
+                          name: typingUser.name, 
+                          role: typingUser.role,
+                          gender: typingUser.gender
+                        }}
+                        className="w-8 h-8 flex-shrink-0"
+                        size={32}
+                      />
+                    )}
+                    {isCurrentUser && (
+                      <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
                         <span className="text-xs font-semibold">
-                          {typingUser.name.split(' ').map(n => n[0]).join('')}
+                          {user?.name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || "YU"}
                         </span>
                       </div>
                     )}
@@ -1108,20 +1179,39 @@ Planning comprehensive testing with 15 students aged 18-26 across different fina
         <div className="p-4">
           <div className="relative">
             <Input
-              className="pr-12 bg-background border-input"
+              className="pr-32 bg-background border-input"
               placeholder="Share your thoughts with the team..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
             />
-            <Button
-              className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8"
-              disabled={!input.trim()}
-              size="icon"
-              onClick={handleSendMessage}
-            >
-              <Send className="w-4 h-4" />
-            </Button>
+            <div className="absolute right-1 top-1/2 -translate-y-1/2 flex items-center gap-1">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                title="Attach file"
+              >
+                <Paperclip className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8 text-muted-foreground hover:text-foreground"
+                title="Voice mode"
+              >
+                <Mic className="w-4 h-4" />
+              </Button>
+              <Button
+                className="h-8 w-8"
+                disabled={!input.trim()}
+                size="icon"
+                onClick={handleSendMessage}
+                title="Send message"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowLeft, Bot, BarChart2, Settings, HelpCircle, LogOut } from "lucide-react";
+import { ArrowLeft, Zap, BarChart2, Settings, HelpCircle, LogOut } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { GeneratedAvatar } from "@/components/ui/generated-avatar";
 
 type View = "dashboard" | "sprint" | "analytics" | "settings" | "help" | "demo";
 
@@ -40,14 +41,7 @@ export const Header: React.FC<HeaderProps> = ({
   onPhaseChange,
   sprintPhases
 }) => {
-  const getUserInitials = (name: string) => {
-    return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
-      .toUpperCase()
-      .slice(0, 2);
-  };
+
 
   const isInSprint = currentView === "sprint" || currentView === "demo";
   const isHome = currentView === "dashboard";
@@ -75,7 +69,7 @@ export const Header: React.FC<HeaderProps> = ({
             {(isHome || !showBackButton) && (
               <div className="flex items-center space-x-3">
                 <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Bot className="w-5 h-5 text-primary-foreground" />
+                  <Zap className="w-5 h-5 text-primary-foreground" />
                 </div>
                 <div>
                   <h1 className="text-lg font-semibold">AI Sprint Facilitator</h1>
@@ -105,7 +99,7 @@ export const Header: React.FC<HeaderProps> = ({
                   <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                     <Avatar className="h-9 w-9">
                       <AvatarFallback className="text-sm">
-                        {getUserInitials(user.name)}
+                        {user.name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2)}
                       </AvatarFallback>
                     </Avatar>
                   </Button>

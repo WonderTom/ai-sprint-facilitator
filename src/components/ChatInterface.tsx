@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-  Bot,
+  Zap,
   User,
   Send,
   Mic,
@@ -448,7 +448,7 @@ What challenge would you like to work on? Please describe it in your own words.`
       <CardHeader className="flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <Bot className="w-8 h-8 text-primary" />
+                            <Zap className="w-8 h-8 text-primary" />
             <div>
               <CardTitle className="flex items-center gap-2">
                 AI Facilitator
@@ -573,7 +573,7 @@ What challenge would you like to work on? Please describe it in your own words.`
           {currentMessages.length === 0 && (
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                <Bot size={20} />
+                <Zap size={20} />
               </div>
               <div className="max-w-md p-3 rounded-lg bg-muted text-foreground">
                 <div
@@ -595,7 +595,7 @@ What challenge would you like to work on? Please describe it in your own words.`
             >
               {msg.type === "assistant" && (
                 <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                  <Bot size={20} />
+                  <Zap size={20} />
                 </div>
               )}
               <div
@@ -633,7 +633,7 @@ What challenge would you like to work on? Please describe it in your own words.`
           {isStreaming && (
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                <Bot size={20} />
+                <Zap size={20} />
               </div>
               <div className="max-w-md p-3 rounded-lg bg-muted text-foreground">
                 <div
@@ -670,7 +670,7 @@ What challenge would you like to work on? Please describe it in your own words.`
           {isSpeaking && (
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center flex-shrink-0">
-                <Bot size={20} />
+                <Zap size={20} />
               </div>
               <div className="max-w-md p-3 rounded-lg bg-muted text-foreground">
                 <div className="flex items-center space-x-1">
